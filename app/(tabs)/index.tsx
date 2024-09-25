@@ -57,7 +57,7 @@ const Dashboard = () => {
           <Text style={{
             color: COLORS.white,
             ...FONTS.h3
-          }}>ASIA</Text>
+          }}>PATSON120</Text>
         </View>
 
         {/* Profile */}
