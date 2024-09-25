@@ -1,16 +1,18 @@
-
-
 import { View, Text, SafeAreaView, Platform, ImageBackground, Image } from 'react-native'
-import React, { useState } from 'react'
+import React, { MutableRefObject, useRef, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { COLORS, dummyData, FONTS, icons, SIZES } from '@/constants';
-import HeaderBar from '@/components/HeaderBar';
-import TextIconButton from '@/components/TextIconButton';
+import { useLocalSearchParams, useRouter } from 'expo-router'
+import { COLORS, dummyData, FONTS, icons, SIZES } from '@/constants'
+import HeaderBar from '@/components/HeaderBar'
+import TextIconButton from '@/components/TextIconButton'
+
+import SlidingUpPanel from 'rn-sliding-up-panel'
 
 const Place = () => {
 
   const router = useRouter()
+
+  let _panel = useRef(null)
 
   const { countryId, placeId } = useLocalSearchParams()
   const [country, setCountry] = useState(dummyData.countries[Number(countryId)])
@@ -20,9 +22,8 @@ const Place = () => {
     router.back()
   }
 
-  return (
-    <SafeAreaView className='flex-1'>
-      {Platform.OS === 'ios' ? null : <View className=''><StatusBar hidden style='light' /></View>}
+  const renderPlace = () => {
+    return (
       <ImageBackground
         className='flex-1 h-full w-full'
         source={place.image}>
@@ -33,7 +34,6 @@ const Place = () => {
             marginTop: SIZES.padding * 1.4
           }}
         />
-
         <View style={{
           flex: 1,
           paddingHorizontal: SIZES.padding,
@@ -84,10 +84,36 @@ const Place = () => {
             label='Book a flight'
             icon={icons.aeroplane}
             onPress={() => console.log("Book a flight")}
+            customContainerStyle={{
+              marginTop: 30
+            }}
           />
-
         </View>
       </ImageBackground>
+    )
+  }
+
+
+
+  const renderMap = () => {
+    return (
+      <SlidingUpPanel
+        ref={(c: any) => (_panel = c)}
+        draggableRange={{
+          top: 0,
+          bottom: 200
+        }}
+      >
+
+      </SlidingUpPanel>
+    )
+  }
+
+  return (
+    <SafeAreaView className='flex-1'>
+      {Platform.OS === 'ios' ? null : <View className=''><StatusBar hidden style='light' /></View>}
+      {renderPlace()}
+      {renderMap()}
     </SafeAreaView>
   )
 }

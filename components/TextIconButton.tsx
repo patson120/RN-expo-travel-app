@@ -1,6 +1,5 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React, { FC } from 'react'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import { COLORS, FONTS, SIZES } from '@/constants'
 
 type Props = {
